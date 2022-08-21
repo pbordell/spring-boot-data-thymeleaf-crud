@@ -1,0 +1,93 @@
+package com.pbs.moviesmanager.controller;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.jxls.template.SimpleExporter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.pbs.moviesmanager.constants.EndpointConstant;
+import com.pbs.moviesmanager.dto.MovieDTO;
+import com.pbs.moviesmanager.mapper.MovieMapper;
+import com.pbs.moviesmanager.model.Movie;
+import com.pbs.moviesmanager.model.request.MovieRequest;
+import com.pbs.moviesmanager.service.MovieService;
+
+@Controller
+@RequestMapping(EndpointConstant.MOVIES_PATH)
+public class MovieController {
+
+	@Autowired
+	private MovieService movieService;
+	
+	@Autowired
+	private MovieMapper movieMapper;
+	
+	@GetMapping(path = EndpointConstant.GET_ALL_MOVIES_PATH)
+	public String getAllMovies(@PageableDefault(page = 1, size = 5, sort = "name") Pageable pageable,
+			@ModelAttribute MovieRequest movieRequest, Model model) {
+		Page<Movie> page = movieService.findAllMovies(movieRequest, pageable);
+		model.addAttribute("movieRequest", movieRequest);
+		model.addAttribute("page", page);
+		return EndpointConstant.VIEW_LIST_MOVIES;
+	}
+	
+	@GetMapping(path = EndpointConstant.GET_MOVIE_CREATE_EDIT)
+	public String viewCreateMovies(@RequestParam(required = false) Long id, Model model) {
+		if (id != null) {
+			Movie result = movieService.getMovieById(id);
+			model.addAttribute(EndpointConstant.PARAM_MOVIE, movieMapper.toDTO(result));
+		} else {
+			model.addAttribute(EndpointConstant.PARAM_MOVIE, new MovieDTO());
+		}
+		return EndpointConstant.VIEW_CREATE_EDIT_MOVIE;
+	}
+	
+	@PostMapping(path = EndpointConstant.CREATE_MOVIE_PATH)
+	public String createMovie(@Valid @ModelAttribute MovieDTO movieDTO, Model model) {
+		movieService.createMovie(movieMapper.fromDTO(movieDTO));
+        return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.GET_ALL_MOVIES_PATH;
+	}
+	
+	@PutMapping(path = EndpointConstant.EDIT_MOVIE_PATH)
+	public String editMovie(@Valid @RequestParam Long id, @ModelAttribute MovieDTO movieDTO, Model model) {
+		if (movieService.getMovieById(id) != null)
+			movieService.updateMovie(movieMapper.fromDTO(movieDTO));
+        return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.GET_ALL_MOVIES_PATH;
+	}
+	
+	@DeleteMapping(path = EndpointConstant.DELETE_MOVIE_PATH)
+	public String deleteMovie(@RequestParam Long id, Model model) {
+		movieService.deleteMovie(id);
+        return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.VIEW_LIST_MOVIES;
+	}
+	
+	@GetMapping(path = EndpointConstant.EXPORT_MOVIES_EXCEL)
+	public void export(HttpServletResponse response) throws IOException {
+		List<Movie> listJobs = movieService.getAllMovies();
+
+		response.addHeader("Content-disposition", "attachment; filename=Jobs_" + LocalDateTime.now() + ".xls");
+		response.setContentType("application/vnd.ms-excel");
+		new SimpleExporter().gridExport(EndpointConstant.HEADER_EXPORT_EXCEL_MOVIE, listJobs,
+				EndpointConstant.DATA_EXPORT_EXCEL_MOVIE, response.getOutputStream());
+		response.flushBuffer();
+
+	}
+
+}

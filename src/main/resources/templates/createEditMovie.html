@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title th:text="#{msg.titleMoviesTab}"></title>
+	<style type="text/css">
+	#todocontainer {
+		margin-top: 50px;
+	}
+	</style>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+	<link href="../static/css/styles.css" type="text/css" rel="stylesheet" th:href="@{/css/styles.css}" media="screen,projection"/>
+</head>
+
+<body>
+	<div th:insert="components :: header"></div>
+	
+	<div class="container">
+		<form method="post" th:action="@{/movies/createMovie}" th:object="${movie}">
+			<div class="form-group">
+				<label for="name" class="col-form-label">Name:</label> 
+				<input id="name" placeholder="Enter Name" required th:field="*{name}" type="text" class="form-control mb-4 col-4" />
+			</div>
+			<div class="form-group">
+				<label for="year" class="col-form-label">Year:</label> 
+				<input id="year" placeholder="Enter Year 4 digits" required th:field="*{year}" type="text" class="form-control mb-4 col-4" />
+			</div>
+			<div class="form-group">
+				<label for="director" class="col-form-label">Director:</label> 
+				<input id="director" placeholder="Enter Director" required th:field="*{director}" type="text" class="form-control mb-4 col-4" />
+			</div>
+			<div class="form-group">
+				<label for="cover" class="col-form-label">Cover:</label> 
+				<input id="cover" type="file" name="file" class="form-control-file">
+			</div>
+	
+			<input type="submit" value="Create Movie" class="btn btn-info col-2"/> 
+			<input type="reset"	value="Reset" class="btn btn-info col-2"/>
+			<a th:href="@{/movies/getAllMovies}" class="btn btn-primary" th:text="#{bttn.back}"></a>
+		</form>
+
+		<div th:insert="components :: footer"></div>
+		
+	</div>
+
+	<script type="text/javascript" src="../static/js/movies.js"	th:src="@{/js/movies.js}"></script>
+
+</body>
+</html>
