@@ -23,9 +23,12 @@ public final class EndpointConstant {
 	public static final List<String> HEADER_EXPORT_EXCEL_MOVIE = Arrays.asList("Name", "Year");
 	public static final String DATA_EXPORT_EXCEL_MOVIE = "name, year";
 	
-	public static final String VIEW_LIST_MOVIES = "listMovies";
-	public static final String VIEW_CREATE_EDIT_MOVIE = "createEditMovie";
-	
+	public static final String VIEW_LIST_MOVIES = "/listMovies";
+	public static final String VIEW_CREATE_EDIT_MOVIE = "/createEditMovie";
+
+	public static final String SLASH = "/";
+
+
 	private EndpointConstant() {
 		throw new UnsupportedOperationException();
 	}

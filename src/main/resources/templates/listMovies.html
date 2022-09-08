@@ -67,7 +67,10 @@
 							<td th:text="${movie.director}"></td>
 							<td>
 								<a th:href="@{'/movies/getViewCreateEditMovie?id=' + ${movie.id}}" class="btn btn-success btn-edit">Edit</a>
-								<a th:href="@{'/movies/deleteMovie?id=' + ${movie.id}}" class="btn btn-success btn-edit">Delete</a>
+								<form action="#" th:action="@{'/movies/deleteMovie?id=' + ${movie.id}}" th:method="delete" >
+									<input type="hidden" name="_method" value="delete" />
+									<button type="submit" class="btn btn-success btn-edit" id="submitButton">Delete</button>
+								</form>
 							</td>
 						</tr>
 					</tbody>
@@ -79,19 +82,25 @@
 				        	Total Rows: [[${page.totalElements}]]
 				    	</div>
 				    	<div class = "col-sm-1">
-							<span th:each="i: ${#numbers.sequence(1, page.totalPages)}">
+							<span th:each="i: ${#numbers.sequence(0, page.totalPages-1)}">
 						      	<a th:if="${page.pageable.pageNumber != i}" th:href="@{'/movies/getAllMovies/?page=' + ${i}}">[[${i}]]</a>
 						     	<span th:unless="${page.number != i}">[[${i}]]</span> &nbsp; &nbsp;
 							</span>
 						</div>
+
 						<div class = "col-sm-1">
-						    <a th:if="${page.pageable.pageNumber < page.totalPages}" th:href="@{'/movies/getAllMovies/?page=' + ${page.pageable.pageNumber + 1}}">Next</a>
-						    <span th:unless="${page.pageable.pageNumber < page.totalPages}">Next</span>
+							<a th:if="${page.pageable.pageNumber > 0}" th:href="@{'/movies/getAllMovies/?page=' + ${page.pageable.pageNumber-1}}">Previous</a>
+							<span th:unless="${page.pageable.pageNumber > 0}">Previous</span>
+						</div>
+
+						<div class = "col-sm-1">
+						    <a th:if="${page.pageable.pageNumber < page.totalPages-1}" th:href="@{'/movies/getAllMovies/?page=' + ${page.pageable.pageNumber+1}}">Next</a>
+						    <span th:unless="${page.pageable.pageNumber < page.totalPages-1}">Next</span>
 						</div>
 						
 						<div class="col-sm-1">
-						    <a th:if="${page.pageable.pageNumber < page.totalPages}" th:href="@{'/movies/getAllMovies/?page=' + ${page.totalPages}}">Last</a>
-						    <span th:unless="${page.pageable.pageNumber < page.totalPages}">Last</span>
+						    <a th:if="${page.pageable.pageNumber < page.totalPages-1}" th:href="@{'/movies/getAllMovies/?page=' + ${page.totalPages-1}}">Last</a>
+						    <span th:unless="${page.pageable.pageNumber < page.totalPages-1}">Last</span>
 		   				</div>
 				    </div>
 				</div>

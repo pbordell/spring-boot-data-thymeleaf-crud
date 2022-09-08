@@ -1,12 +1,11 @@
 package com.pbs.moviesmanager.controller;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.pbs.moviesmanager.constants.EndpointConstant;
+import com.pbs.moviesmanager.dto.MovieDTO;
+import com.pbs.moviesmanager.mapper.MovieMapper;
+import com.pbs.moviesmanager.model.Movie;
+import com.pbs.moviesmanager.model.request.MovieRequest;
+import com.pbs.moviesmanager.service.MovieService;
 import org.jxls.template.SimpleExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,20 +13,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import com.pbs.moviesmanager.constants.EndpointConstant;
-import com.pbs.moviesmanager.dto.MovieDTO;
-import com.pbs.moviesmanager.mapper.MovieMapper;
-import com.pbs.moviesmanager.model.Movie;
-import com.pbs.moviesmanager.model.request.MovieRequest;
-import com.pbs.moviesmanager.service.MovieService;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping(EndpointConstant.MOVIES_PATH)
@@ -40,11 +33,12 @@ public class MovieController {
 	private MovieMapper movieMapper;
 	
 	@GetMapping(path = EndpointConstant.GET_ALL_MOVIES_PATH)
-	public String getAllMovies(@PageableDefault(page = 1, size = 5, sort = "name") Pageable pageable,
+	public String getAllMovies(@PageableDefault(page = 0, size = 5, sort = "name") Pageable pageable,
 			@ModelAttribute MovieRequest movieRequest, Model model) {
 		Page<Movie> page = movieService.findAllMovies(movieRequest, pageable);
 		model.addAttribute("movieRequest", movieRequest);
 		model.addAttribute("page", page);
+
 		return EndpointConstant.VIEW_LIST_MOVIES;
 	}
 	
@@ -60,22 +54,22 @@ public class MovieController {
 	}
 	
 	@PostMapping(path = EndpointConstant.CREATE_MOVIE_PATH)
-	public String createMovie(@Valid @ModelAttribute MovieDTO movieDTO, Model model) {
+	public String createMovie(@Valid @ModelAttribute MovieDTO movieDTO) {
 		movieService.createMovie(movieMapper.fromDTO(movieDTO));
         return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.GET_ALL_MOVIES_PATH;
 	}
 	
 	@PutMapping(path = EndpointConstant.EDIT_MOVIE_PATH)
-	public String editMovie(@Valid @RequestParam Long id, @ModelAttribute MovieDTO movieDTO, Model model) {
+	public String editMovie(@Valid @RequestParam Long id, @ModelAttribute MovieDTO movieDTO) {
 		if (movieService.getMovieById(id) != null)
 			movieService.updateMovie(movieMapper.fromDTO(movieDTO));
         return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.GET_ALL_MOVIES_PATH;
 	}
 	
 	@DeleteMapping(path = EndpointConstant.DELETE_MOVIE_PATH)
-	public String deleteMovie(@RequestParam Long id, Model model) {
+	public String deleteMovie(@RequestParam Long id) {
 		movieService.deleteMovie(id);
-        return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.VIEW_LIST_MOVIES;
+        return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.GET_ALL_MOVIES_PATH;
 	}
 	
 	@GetMapping(path = EndpointConstant.EXPORT_MOVIES_EXCEL)
