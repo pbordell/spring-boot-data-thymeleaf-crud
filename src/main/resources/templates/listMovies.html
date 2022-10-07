@@ -21,22 +21,19 @@
 	<div class="container my-2">
 		<form th:object="${movieRequest}" th:action="@{/movies/getAllMovies}" method="get">
 			
-			<div class="inner-form">
-				<div class="input-field first-wrap">
-		        	<input type="text" name="name" id="name" th:value="${movieRequest.name}" placeholder="name"/>
-	        	</div>
-	        	<div class="input-field second-wrap">
-		        	<input type="number" name="year" id="year" th:value="${movieRequest.year}" placeholder="year"/>
+			<div class="form-group">
+				<div class="input-field first-wrap" align="center">
+		        	<input type="text" name="name" id="name" th:value="${movieRequest.name}" placeholder="name" class="mb-3 col-4" />
+		        	<input type="number" name="year" id="year" th:value="${movieRequest.year}" placeholder="year" class="mb-3 col-1" />
+		        	<input type="text" name="director" id="director" th:value="${movieRequest.director}" placeholder="director" class="mb-3 col-4" />
 		        </div>
-		        <div class="input-field third-wrap">
-		        	<input type="text" name="director" id="director" th:value="${movieRequest.director}" placeholder="director" />
-		        </div>	
-		        <div class="input-field fouth-wrap">
+		        <div class="input-field fouth-wrap" align="center">
 		        	<button class="btn-search" type="submit">SEARCH</button>
 		        </div>
-		    </div> 
-			
-			<div class="container my-2">
+		    </div>
+		</form>
+
+		<div class="container my-2">
 				<a th:href="@{/movies/getViewCreateEditMovie}" class="btn btn-primary btn-sm mb-3" th:text="#{bttn.addMovie}"></a>
 				<a th:href="@{/movies/export/excel}" class="btn btn-primary btn-sm mb-3" th:text="#{bttn.export}"></a>
 				<table border="1" class = "table table-striped table-responsive-md">
@@ -67,7 +64,7 @@
 							<td th:text="${movie.director}"></td>
 							<td>
 								<a th:href="@{'/movies/getViewCreateEditMovie?id=' + ${movie.id}}" class="btn btn-success btn-edit">Edit</a>
-								<form action="#" th:action="@{'/movies/deleteMovie?id=' + ${movie.id}}" th:method="delete" >
+								<form action="#" th:action="@{'/movies/deleteMovie?id=' + ${movie.id}}" th:method="delete" style="display: inline;">
 									<input type="hidden" name="_method" value="delete" />
 									<button type="submit" class="btn btn-success btn-edit" id="submitButton">Delete</button>
 								</form>
@@ -105,7 +102,6 @@
 				    </div>
 				</div>
 			</div>
-		</form>
 	</div>
 
 	<div th:insert="components :: footer"></div>
