@@ -24,6 +24,6 @@ public class Movie {
   private String director;
 
   @Lob
-  @Column(name = "COVER", length = 50)
+  @Column(name = "COVER", length = Integer.MAX_VALUE)
   private byte[] cover;
 }

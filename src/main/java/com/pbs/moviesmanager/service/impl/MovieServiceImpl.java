@@ -47,7 +47,9 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public Movie updateMovie(Movie movie) {
-		return movieRepository.save(movie);
+        Movie movieAux = movieRepository.getOne(movie.getId());
+        //movieAux.setName(movie.);
+		return movieRepository.save(movieAux);
 	}
 
 	@Override

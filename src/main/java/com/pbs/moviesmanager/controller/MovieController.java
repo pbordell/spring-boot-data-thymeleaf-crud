@@ -1,5 +1,6 @@
 package com.pbs.moviesmanager.controller;
 
+import com.google.common.base.Optional;
 import com.pbs.moviesmanager.constants.EndpointConstant;
 import com.pbs.moviesmanager.dto.MovieDTO;
 import com.pbs.moviesmanager.mapper.MovieMapper;
@@ -8,13 +9,18 @@ import com.pbs.moviesmanager.model.request.MovieRequest;
 import com.pbs.moviesmanager.service.MovieService;
 import org.jxls.template.SimpleExporter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -82,6 +88,17 @@ public class MovieController {
 				EndpointConstant.DATA_EXPORT_EXCEL_MOVIE, response.getOutputStream());
 		response.flushBuffer();
 
+	}
+
+	@GetMapping("/image")
+	@ResponseBody
+	public void showImage(@Param("id") Long id, HttpServletResponse response)
+			throws IOException {
+
+		Movie movie = movieService.getMovieById(id);
+		response.setContentType("image/jpeg, image/jpg, image/png, image/gif, image/pdf");
+		response.getOutputStream().write(movie.getCover());
+		response.getOutputStream().close();
 	}
 
 }
