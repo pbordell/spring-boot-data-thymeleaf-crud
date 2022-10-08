@@ -74,11 +74,11 @@ public class MovieController {
 	
 	@GetMapping(path = EndpointConstant.EXPORT_MOVIES_EXCEL)
 	public void export(HttpServletResponse response) throws IOException {
-		List<Movie> listJobs = movieService.getAllMovies();
+		List<Movie> listMovies = movieService.getAllMovies();
 
 		response.addHeader("Content-disposition", "attachment; filename=Movies_" + LocalDateTime.now() + ".xls");
 		response.setContentType("application/vnd.ms-excel");
-		new SimpleExporter().gridExport(EndpointConstant.HEADER_EXPORT_EXCEL_MOVIE, listJobs,
+		new SimpleExporter().gridExport(EndpointConstant.HEADER_EXPORT_EXCEL_MOVIE, listMovies,
 				EndpointConstant.DATA_EXPORT_EXCEL_MOVIE, response.getOutputStream());
 		response.flushBuffer();
 
