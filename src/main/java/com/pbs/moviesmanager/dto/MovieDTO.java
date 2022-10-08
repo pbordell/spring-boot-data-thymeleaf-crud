@@ -3,6 +3,7 @@ package com.pbs.moviesmanager.dto;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class MovieDTO {
@@ -17,6 +18,8 @@ public class MovieDTO {
 
   @NotEmpty
   private String director;
+
+  private MultipartFile coverMultipart;
 
   private byte[] cover;
 }

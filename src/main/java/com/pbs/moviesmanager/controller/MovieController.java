@@ -54,13 +54,13 @@ public class MovieController {
 	}
 	
 	@PostMapping(path = EndpointConstant.CREATE_MOVIE_PATH)
-	public String createMovie(@Valid @ModelAttribute MovieDTO movieDTO) {
+	public String createMovie(@Valid @ModelAttribute MovieDTO movieDTO) throws IOException {
 		movieService.createMovie(movieMapper.fromDTO(movieDTO));
         return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.GET_ALL_MOVIES_PATH;
 	}
 	
 	@PutMapping(path = EndpointConstant.EDIT_MOVIE_PATH)
-	public String editMovie(@Valid @RequestParam Long id, @ModelAttribute MovieDTO movieDTO) {
+	public String editMovie(@Valid @RequestParam Long id, @ModelAttribute MovieDTO movieDTO) throws IOException {
 		if (movieService.getMovieById(id) != null)
 			movieService.updateMovie(movieMapper.fromDTO(movieDTO));
         return "redirect:" + EndpointConstant.MOVIES_PATH + EndpointConstant.GET_ALL_MOVIES_PATH;
@@ -88,6 +88,7 @@ public class MovieController {
 	public void showCover(@Param("id") Long id, HttpServletResponse response)
 			throws IOException {
 		Movie movie = movieService.getMovieById(id);
+
 		response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 		response.flushBuffer();
 		response.getOutputStream().write(movie.getCover());

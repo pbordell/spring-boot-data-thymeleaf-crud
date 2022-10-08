@@ -19,7 +19,7 @@
 	<div th:insert="components :: header"></div>
 	
 	<div class="container">
-		<form method="post" th:action="@{/movies/createMovie}" th:object="${movie}">
+		<form method="post" th:action="@{/movies/createMovie}" th:object="${movie}" enctype="multipart/form-data">
 			<input id="id" th:field="*{id}" type="hidden" />
 
 			<div class="form-group">
@@ -39,7 +39,7 @@
 
 			<div class="form-group">
 				<label for="cover" class="col-form-label">Cover:</label> 
-				<input id="cover" th:field="*{cover}" type="file" name="file" class="form-control-file"/>
+				<input id="cover" th:field="*{coverMultipart}" type="file" name="file" class="form-control-file"/>
 			</div>
 
 			<div class="form-group" th:if="${movie.cover != null}">
