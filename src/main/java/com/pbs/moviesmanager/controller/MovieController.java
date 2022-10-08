@@ -76,7 +76,7 @@ public class MovieController {
 	public void export(HttpServletResponse response) throws IOException {
 		List<Movie> listJobs = movieService.getAllMovies();
 
-		response.addHeader("Content-disposition", "attachment; filename=Jobs_" + LocalDateTime.now() + ".xls");
+		response.addHeader("Content-disposition", "attachment; filename=Movies_" + LocalDateTime.now() + ".xls");
 		response.setContentType("application/vnd.ms-excel");
 		new SimpleExporter().gridExport(EndpointConstant.HEADER_EXPORT_EXCEL_MOVIE, listJobs,
 				EndpointConstant.DATA_EXPORT_EXCEL_MOVIE, response.getOutputStream());
