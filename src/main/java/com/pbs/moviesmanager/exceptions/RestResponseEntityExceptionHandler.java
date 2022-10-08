@@ -12,18 +12,18 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-	
-	private final static String ERROR_PATH = "error";
 
-	@ExceptionHandler(Exception.class)
-	public ModelAndView handleError(HttpServletRequest req, Exception ex) {
-		log.error("Request: " + req.getRequestURL() + " raised " + ex.getMessage(), ex);
+  private static final String ERROR_PATH = "error";
 
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("message", ex.getMessage());
-		mav.addObject("ex", ex);
-		mav.addObject("url", req.getRequestURL());
-		mav.setViewName(ERROR_PATH);
-		return mav;
-	}
+  @ExceptionHandler(Exception.class)
+  public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+    log.error("Request: " + req.getRequestURL() + " raised " + ex.getMessage(), ex);
+
+    ModelAndView mav = new ModelAndView();
+    mav.addObject("message", ex.getMessage());
+    mav.addObject("ex", ex);
+    mav.addObject("url", req.getRequestURL());
+    mav.setViewName(ERROR_PATH);
+    return mav;
+  }
 }

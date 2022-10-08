@@ -13,19 +13,16 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface MovieMapper {
 
-	@AfterMapping
-	default void outMappingsDTO(@MappingTarget Movie target, MovieDTO source) throws IOException {
-		if (source.getCoverMultipart() != null) {
-			target.setCover(source.getCoverMultipart().getBytes());
-		} else {
-			target.setCover(null);
-		}
-	}
+  @AfterMapping
+  default void outMappingsDTO(@MappingTarget Movie target, MovieDTO source) throws IOException {
+    if (source.getCoverMultipart().getSize() > 0) {
+      target.setCover(source.getCoverMultipart().getBytes());
+    }
+  }
 
-	Movie fromDTO(MovieDTO source) throws IOException;
+  Movie fromDTO(MovieDTO source) throws IOException;
 
-	MovieDTO toDTO(Movie source);
+  MovieDTO toDTO(Movie source);
 
-	List<MovieDTO> toListDTO(List<Movie> source);
-
+  List<MovieDTO> toListDTO(List<Movie> source);
 }

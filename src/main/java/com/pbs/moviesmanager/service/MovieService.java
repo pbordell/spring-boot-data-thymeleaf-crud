@@ -12,14 +12,15 @@ public interface MovieService {
 
   Movie getMovieById(Long movieId);
 
+  Movie findByName(String name);
+
   List<Movie> getAllMovies();
-  
+
   Page<Movie> findAllMovies(MovieRequest movieRequest, Pageable pageable);
-  
+
   Movie createMovie(Movie movie);
-  
+
   Movie updateMovie(Movie movie);
-  
+
   void deleteMovie(Long movieId);
-  
 }

@@ -18,7 +18,7 @@ public class Movie {
   private String name;
 
   @Column(name = "YEAR", length = 50, nullable = false)
-  private String year;
+  private Long year;
 
   @Column(name = "DIRECTOR", length = 50)
   private String director;

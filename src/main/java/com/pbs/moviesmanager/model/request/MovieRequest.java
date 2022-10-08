@@ -10,5 +10,4 @@ public class MovieRequest {
   private String year;
 
   private String director;
-  
 }
