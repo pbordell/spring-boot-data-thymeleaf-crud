@@ -12,10 +12,10 @@ public class MovieDTO {
 
   private Long id;
 
-  @NotEmpty(message = "Director cannot be null")
+  @NotEmpty(message = "Name cannot be null")
   private String name;
 
-  @NotNull(message = "Year cannot be null.")
+  @NotNull(message = "Year cannot be null")
   @Min(value = 1895, message = "Year must be bigger than 1895")
   private Long year;
 
