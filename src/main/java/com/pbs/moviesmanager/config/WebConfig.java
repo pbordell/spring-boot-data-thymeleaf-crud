@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebConfig {
 
-	@Bean
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	ServletRegistrationBean h2servletRegistration() {
-		ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
-		registrationBean.addUrlMappings("/console/*");
-		return registrationBean;
-	}
+  @Bean
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  ServletRegistrationBean h2servletRegistration() {
+    ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
+    registrationBean.addUrlMappings("/console/*");
+    return registrationBean;
+  }
 }

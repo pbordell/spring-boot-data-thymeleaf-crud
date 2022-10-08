@@ -19,41 +19,45 @@ import com.pbs.moviesmanager.specification.MovieSpecification;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-	@Autowired
-	private MovieRepository movieRepository;
+  @Autowired private MovieRepository movieRepository;
 
-	@Override
-	public Movie getMovieById(Long movieId) {
-		return movieRepository.getOne(movieId);
-	}
+  @Override
+  public Movie getMovieById(Long movieId) {
+    return movieRepository.getOne(movieId);
+  }
 
-	@Override
-	public List<Movie> getAllMovies() {
-		return movieRepository.findAll();
-	}
-	
-	@Override
-	public Page<Movie> findAllMovies(MovieRequest movieRequest, Pageable pageable) {
-		if (movieRequest == null) {
-			movieRequest = new MovieRequest();
-		}
-		return movieRepository.findAll(MovieSpecification.toPredicate(movieRequest), pageable);
-	}
+  @Override
+  public Movie findByName(String name) {
+    return movieRepository.findByName(name);
+  }
 
-	@Override
-	public Movie createMovie(Movie movie) {
-		return movieRepository.save(movie);
-	}
+  @Override
+  public List<Movie> getAllMovies() {
+    return movieRepository.findAll();
+  }
 
-	@Override
-	public Movie updateMovie(Movie movie) {
-		// TODO: It's not necessary
-        Movie movieAux = movieRepository.getOne(movie.getId());
-		return movieRepository.save(movieAux);
-	}
+  @Override
+  public Page<Movie> findAllMovies(MovieRequest movieRequest, Pageable pageable) {
+    if (movieRequest == null) {
+      movieRequest = new MovieRequest();
+    }
+    return movieRepository.findAll(MovieSpecification.toPredicate(movieRequest), pageable);
+  }
 
-	@Override
-	public void deleteMovie(Long movieId) {
-		movieRepository.deleteById(movieId);
-	}
+  @Override
+  public Movie createMovie(Movie movie) {
+    return movieRepository.save(movie);
+  }
+
+  @Override
+  public Movie updateMovie(Movie movie) {
+    // TODO: It's not necessary
+    Movie movieAux = movieRepository.getOne(movie.getId());
+    return movieRepository.save(movieAux);
+  }
+
+  @Override
+  public void deleteMovie(Long movieId) {
+    movieRepository.deleteById(movieId);
+  }
 }
