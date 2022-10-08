@@ -78,7 +78,7 @@
 						<div class = "col-sm-2">
 				        	Total Rows: [[${page.totalElements}]]
 				    	</div>
-				    	<div class = "col-sm-1">
+				    	<div class = "col-sm-50">
 							<span th:each="i: ${#numbers.sequence(0, page.totalPages-1)}">
 						      	<a th:if="${page.pageable.pageNumber != i}" th:href="@{'/movies/getAllMovies/?page=' + ${i}}">[[${i}]]</a>
 						     	<span th:unless="${page.number != i}">[[${i}]]</span> &nbsp; &nbsp;
