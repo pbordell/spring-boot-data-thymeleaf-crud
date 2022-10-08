@@ -60,7 +60,7 @@ public class MovieController {
 
   @PostMapping(path = EndpointConstant.CREATE_MOVIE_PATH)
   public String createMovie(
-      @Valid @ModelAttribute MovieDTO movieDTO, BindingResult result, Model model)
+      @Valid @ModelAttribute("movie") MovieDTO movieDTO, BindingResult result, Model model)
       throws IOException {
     if (result.hasErrors()) {
       model.addAttribute(EndpointConstant.PARAM_MOVIE, movieDTO);

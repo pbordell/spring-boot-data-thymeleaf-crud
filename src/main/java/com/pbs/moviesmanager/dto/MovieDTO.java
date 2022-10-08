@@ -1,5 +1,6 @@
 package com.pbs.moviesmanager.dto;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ public class MovieDTO {
 
   @NotNull(message = "Year cannot be null")
   @Min(value = 1895, message = "Year must be bigger than 1895")
+  @Max(value = 9999, message = "Year must be smaller than 9999")
   private Long year;
 
   @NotEmpty(message = "Director cannot be null")
