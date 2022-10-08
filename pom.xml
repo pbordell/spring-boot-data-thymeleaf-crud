@@ -89,7 +89,7 @@
 			<artifactId>jxls-poi</artifactId>
 			<version>${jxls-poi.version}</version>
 		</dependency>
-		
+
 		<!-- Mapstruct -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -100,7 +100,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>scheduler-jobs</finalName>
+		<finalName>movies-manager</finalName>
 		<plugins>
 
 			<plugin>

@@ -47,8 +47,8 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public Movie updateMovie(Movie movie) {
+		// TODO: It's not necessary
         Movie movieAux = movieRepository.getOne(movie.getId());
-        //movieAux.setName(movie.);
 		return movieRepository.save(movieAux);
 	}
 

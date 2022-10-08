@@ -45,8 +45,8 @@ public class MovieController {
 	@GetMapping(path = EndpointConstant.GET_MOVIE_CREATE_EDIT)
 	public String viewCreateMovies(@RequestParam(required = false) Long id, Model model) {
 		if (id != null) {
-			Movie result = movieService.getMovieById(id);
-			model.addAttribute(EndpointConstant.PARAM_MOVIE, movieMapper.toDTO(result));
+			Movie movie = movieService.getMovieById(id);
+			model.addAttribute(EndpointConstant.PARAM_MOVIE, movieMapper.toDTO(movie));
 		} else {
 			model.addAttribute(EndpointConstant.PARAM_MOVIE, new MovieDTO());
 		}
@@ -84,14 +84,14 @@ public class MovieController {
 
 	}
 
-	@GetMapping("/image")
-	@ResponseBody
-	public void showImage(@Param("id") Long id, HttpServletResponse response)
+	@GetMapping("/cover")
+	public void showCover(@Param("id") Long id, HttpServletResponse response)
 			throws IOException {
-
 		Movie movie = movieService.getMovieById(id);
-		response.setContentType("image/jpeg, image/jpg, image/png, image/gif, image/pdf");
+		response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+		response.flushBuffer();
 		response.getOutputStream().write(movie.getCover());
+		response.getOutputStream().flush();
 		response.getOutputStream().close();
 	}
 

@@ -43,7 +43,7 @@
 			</div>
 
 			<div class="form-group" th:if="${movie.cover != null}">
-				<img th:src="@{${'/movies/image?id='+ movie.id}}" class="card img-fluid" alt=""/>
+				<img id="logoCover" th:src="@{'/movies/cover?id=' + ${movie.id}}">
 			</div>
 
 			<input type="submit" value="Save" class="btn btn-info col-2"/>
